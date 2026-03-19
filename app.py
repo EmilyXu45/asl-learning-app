@@ -6,6 +6,14 @@ from PIL import Image
 # Pillow: resize/format the picture inputs 
 import numpy as np
 # Process the images as numbers and feed them into the model
+import base64
+# Turn image into text that can be sent to the backend
+import random
+from openai import OpenAI
+
+Client = OpenAI(
+    base_url="https://api.featherless.ai/v1",
+    api_key=st.secrets["FEATHERLESS_API_KEY"])
 
 st.title("ASL Learning App")
 st.write("Testing the camera...")
