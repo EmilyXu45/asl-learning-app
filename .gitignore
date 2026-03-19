@@ -1,3 +1,10 @@
+# Local environment variables
+.env
+.streamlit/secrets.toml
+
+# Python folders
+__pycache__/
+.venv/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
