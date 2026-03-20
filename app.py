@@ -11,9 +11,17 @@ import base64
 import random
 from openai import OpenAI
 
-Client = OpenAI(
+client = OpenAI(
     base_url="https://api.featherless.ai/v1",
     api_key=st.secrets["FEATHERLESS_API_KEY"])
+
+if 'target' not in st.session_state:
+    st.session_state['target'] = random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+st.header(f"Can you sign the letter {st.session_state['target']}?")
+
+if st.button("Give me a different letter"):
+    st.session_state.target = random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    st.rerun()
 
 st.title("ASL Learning App")
 st.write("Testing the camera...")
@@ -25,3 +33,33 @@ if img_file_buffer is not None:
     img = Image.open(img_file_buffer)
     st.image(img, caption="Sign visible", use_container_width = True)
     st.success("Camera is working, WOOHOO!")
+
+# 1. Convert the camera image to Base64 text for the AI
+    bytes_data = img_file_buffer.getvalue()
+    base64_image = base64.b64encode(bytes_data).decode('utf-8')
+
+    # 2. Ask the AI to grade the sign
+    with st.spinner("AI is analyzing your sign..."):
+        try:
+            response = client.chat.completions.create(
+                model="pixtral-12b",
+                messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {"type": "text", "text": f"The user is trying to sign the ASL letter '{st.session_state.target}'. Is it correct? If not, what letter are they actually making?"},
+                            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
+                        ],
+                    }
+                ],
+            )
+            
+            # 3. Show the result
+            result = response.choices[0].message.content
+            st.info(f"Feedback: {result}")
+            
+            if "correct" in result.lower():
+                st.balloons()
+                
+        except Exception as e:
+            st.error(f"AI Error: {e}")
