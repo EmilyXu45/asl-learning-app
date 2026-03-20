@@ -34,11 +34,11 @@ img_file_buffer = st.camera_input("Take a photo of your sign:")
 if img_file_buffer is not None:
 # Checking if the user has taken a picture to be processsed.
     img = Image.open(img_file_buffer)
-    img.thumbnail((400, 400))
+    img.thumbnail((300, 300))
     st.image(img, caption="Resized image", use_container_width=True)
     import io
     buffered = io.BytesIO()
-    img.save(buffered, format="JPEG")
+    img.save(buffered, format="JPEG", quality=70)
     base64_image = base64.b64encode(buffered.getvalue()).decode('utf-8')
     st.image(img, caption="Sign visible", use_container_width = True)
     st.success("Camera is working, WOOHOO!")
@@ -51,7 +51,7 @@ if img_file_buffer is not None:
     with st.spinner("Checking your sign..."):
         try:
             response = client.chat.completions.create(
-                model="alibayram/doktor-gemma3-12b-vision3",
+                model="meta-llama/Llama-3.2-11B-Vision-Instruct",
                 messages=[
                     {
                         "role": "user",
