@@ -51,7 +51,7 @@ if img_file_buffer is not None:
     with st.spinner("Checking your sign..."):
         try:
             response = client.chat.completions.create(
-                model="meta-llama/Llama-3.2-11B-Vision-Instruct",
+                model="VerusCommunity/llama-3-verus-8-epochs-revision-1",
                 messages=[
                     {
                         "role": "user",

@@ -8,4 +8,5 @@ client = OpenAI(
 
 models = client.models.list()
 for model in models.data:
-    print(model.id)
+    if "vision" in model.id.lower():
+        print(model.id)
