@@ -11,6 +11,8 @@ import base64
 import random
 from openai import OpenAI
 
+st.title("ASL Learning App")
+
 client = OpenAI(
     base_url="https://api.featherless.ai/v1",
     api_key=st.secrets["FEATHERLESS_API_KEY"])
@@ -23,10 +25,9 @@ if st.button("Give me a different letter"):
     st.session_state.target = random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
     st.rerun()
 
-st.title("ASL Learning App")
-st.write("Testing the camera...")
+st.write("Show your sign to the camera!")
 
-img_file_buffer = st.camera_input("Take a photo of a sign:")
+img_file_buffer = st.camera_input("Take a photo of your sign:")
 # Opens the camera and takes a picture which gets stored in img_file_buffer
 if img_file_buffer is not None:
 # Checking if the user has taken a picture to be processsed.
