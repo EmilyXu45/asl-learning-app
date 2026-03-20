@@ -34,14 +34,13 @@ img_file_buffer = st.camera_input("Take a photo of your sign:")
 if img_file_buffer is not None:
 # Checking if the user has taken a picture to be processsed.
     img = Image.open(img_file_buffer)
-    img.thumbnail((300, 300))
-    st.image(img, caption="Resized image", use_container_width=True)
+    img_resized = img.resize((200,200), Image.Resampling.LANCZOS)
     import io
     buffered = io.BytesIO()
-    img.save(buffered, format="JPEG", quality=70)
+    img.save(buffered, format="JPEG", quality=50)
     base64_image = base64.b64encode(buffered.getvalue()).decode('utf-8')
     st.image(img, caption="Sign visible", use_container_width = True)
-    st.success("Camera is working, WOOHOO!")
+    st.success("Checking may be slow, please be patient...")
 
 # 1. Convert the camera image to Base64 text for the AI
     bytes_data = img_file_buffer.getvalue()
@@ -51,7 +50,7 @@ if img_file_buffer is not None:
     with st.spinner("Checking your sign..."):
         try:
             response = client.chat.completions.create(
-                model="VerusCommunity/llama-3-verus-8-epochs-revision-1",
+                model="kmouratidis/Magistral-Small-2507-Rebased-Vision",
                 messages=[
                     {
                         "role": "user",
@@ -71,9 +70,12 @@ if img_file_buffer is not None:
             st.info(f"Feedback: {result}")
             # Visually showing feedback
             
-            if "correct" in result.lower():
+            if "is correct" in result.lower() and "not" not in result.lower():
                 st.balloons()
-                
+                st.success("Perfect! You got it!")
+            else:
+                st.warning("Not quite there yet, check the feedback and try again!")
+
         except Exception as e:
             st.error(f"Uh-oh, something went wrong. Error: {e}")
         # Exception handling
