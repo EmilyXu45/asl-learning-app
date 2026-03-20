@@ -34,6 +34,12 @@ img_file_buffer = st.camera_input("Take a photo of your sign:")
 if img_file_buffer is not None:
 # Checking if the user has taken a picture to be processsed.
     img = Image.open(img_file_buffer)
+    img.thumbnail((400, 400))
+    st.image(img, caption="Resized image", use_container_width=True)
+    import io
+    buffered = io.BytesIO()
+    img.save(buffered, format="JPEG")
+    base64_image = base64.b64encode(buffered.getvalue()).decode('utf-8')
     st.image(img, caption="Sign visible", use_container_width = True)
     st.success("Camera is working, WOOHOO!")
 
