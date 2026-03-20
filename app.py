@@ -19,6 +19,8 @@ client = OpenAI(
 
 if 'target' not in st.session_state:
     st.session_state['target'] = random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+# Initialize the target letter in the session state if it doesn't exist
+# Prevent the target letter from resetting on every interaction (every 1 sec)
 st.header(f"Can you sign the letter {st.session_state['target']}?")
 
 if st.button("Give me a different letter"):
@@ -40,7 +42,7 @@ if img_file_buffer is not None:
     base64_image = base64.b64encode(bytes_data).decode('utf-8')
 
     # 2. Ask the AI to grade the sign
-    with st.spinner("AI is analyzing your sign..."):
+    with st.spinner("Checking your sign..."):
         try:
             response = client.chat.completions.create(
                 model="pixtral-12b",
@@ -54,13 +56,18 @@ if img_file_buffer is not None:
                     }
                 ],
             )
+            # Using vision model to analyse the image and determine if the sign is correct or not, and provide feedback.
+            # Connecting to and asking the AI model to grade the sign and provide feedback.
             
             # 3. Show the result
             result = response.choices[0].message.content
+            # Displaying the first AI message choice to the user
             st.info(f"Feedback: {result}")
+            # Visually showing feedback
             
             if "correct" in result.lower():
                 st.balloons()
                 
         except Exception as e:
-            st.error(f"AI Error: {e}")
+            st.error(f"Uh-oh, something went wrong. Error: {e}")
+        # Exception handling
