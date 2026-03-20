@@ -45,7 +45,7 @@ if img_file_buffer is not None:
     with st.spinner("Checking your sign..."):
         try:
             response = client.chat.completions.create(
-                model="pixtral-12b",
+                model="alibayram/doktor-gemma3-12b-vision3",
                 messages=[
                     {
                         "role": "user",
