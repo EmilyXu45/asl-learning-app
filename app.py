@@ -49,6 +49,7 @@ if img_file_buffer is not None:
     # 2. Ask the AI to grade the sign
     with st.spinner("Checking your sign..."):
         try:
+            # Initiate chat completion with the vision model, sending the image and asking for feedback on the sign.
             response = client.chat.completions.create(
                 model="kmouratidis/Magistral-Small-2507-Rebased-Vision",
                 messages=[
@@ -71,6 +72,7 @@ if img_file_buffer is not None:
             # Visually showing feedback
             
             if "is correct" in result.lower() and "not" not in result.lower():
+            # Ensuring that "not" is absent to avoid false positives such as "not correct" where the word "correct" is present but the sign is incorrect.
                 st.balloons()
                 st.success("Perfect! You got it!")
             else:
