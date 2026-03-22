@@ -11,6 +11,36 @@ import base64
 import random
 from openai import OpenAI
 
+# Initialize 'page' in session state if it doesn't exist
+if 'page' not in st.session_state:
+    st.session_state.page = "home"
+
+# --- PAGE: HOME ---
+if st.session_state.page == "home":
+    st.title("🤟 ASL Master")
+    st.subheader("Master the American Sign Language alphabet with AI feedback.")
+    
+    st.markdown("""
+    ### How it works:
+    1. **Get a Letter:** The AI will challenge you with a random letter.
+    2. **Strike a Pose:** Show your hand sign to the camera.
+    3. **Get Instant Feedback:** Our Vision AI will tell you if you're correct or how to improve!
+    """)
+    
+    # Large button to start the app
+    if st.button("Start Practicing 🚀", use_container_width=True):
+        st.session_state.page = "app"
+        st.rerun()
+
+    st.divider()
+    st.info("💡 Tip: Make sure your hand is well-lit and clearly visible in the frame!")
+
+# --- PAGE: APP ---
+elif st.session_state.page == "app":
+    if st.button("⬅️ Back to Home"):
+        st.session_state.page = "home"
+        st.rerun()
+        
 st.title("ASL Learning App")
 
 client = OpenAI(
