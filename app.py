@@ -15,10 +15,8 @@ from openai import OpenAI
 if 'page' not in st.session_state:
     st.session_state.page = "home"
 
-# --- PAGE: HOME ---
 if st.session_state.page == "home":
-    st.title("🤟 ASL Master")
-    st.subheader("Master the American Sign Language alphabet with AI feedback.")
+    st.title("Let's Learn ASL!")
     
     st.markdown("""
     ### How it works:
