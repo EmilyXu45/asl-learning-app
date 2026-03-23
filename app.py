@@ -11,14 +11,18 @@ import base64
 import random
 from openai import OpenAI
 
+client = OpenAI(
+    base_url="https://api.featherless.ai/v1",
+    api_key=st.secrets["FEATHERLESS_API_KEY"])
+
 # Initialize 'page' in session state if it doesn't exist
 if 'page' not in st.session_state:
     st.session_state.page = "home"
 
 def asl_fact():
     try:
-        fact = client.chat.comp·letions.create(
-            model="kmouratidis/Magistral-Small-2507-Rebased-Vision",
+        fact = client.chat.completions.create(
+            model="DeepSeek-V3-0324",
             messages= [{"role": "user", "content": "Tell me one short, inspiring, or interesting random fact about ASL or the Deaf community. Keep it under 30 words."}],
             max_tokens=60
         )
@@ -38,10 +42,6 @@ if st.session_state.page == "home":
             st.session_state.asl_fact = asl_fact()
         st.write(st.session_state.asl_fact)
     
-    # Large button to start the app
-    if st.button("Start Practicing 🚀", use_container_width=True):
-        st.session_state.page = "app"
-        st.rerun()
 
     st.markdown("""
     ### How it works:
@@ -49,6 +49,11 @@ if st.session_state.page == "home":
     2. **Strike a Pose:** Show your hand sign to the camera.
     3. **Get Instant Feedback:** Our Vision AI will tell you if you're correct or how to improve!
     """)
+
+    # Large button to start the app
+    if st.button("Start Practicing 🚀", use_container_width=True):
+        st.session_state.page = "app"
+        st.rerun()
 
     st.divider()
     st.info("💡 Tip: Make sure your hand is well-lit and clearly visible in the frame!")
@@ -58,74 +63,68 @@ elif st.session_state.page == "app":
     if st.button("⬅️ Back to Home"):
         st.session_state.page = "home"
         st.rerun()
-        
-st.title("ASL Learning App")
 
-client = OpenAI(
-    base_url="https://api.featherless.ai/v1",
-    api_key=st.secrets["FEATHERLESS_API_KEY"])
+    if 'target' not in st.session_state:
+        st.session_state['target'] = random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    # Initialize the target letter in the session state if it doesn't exist
+    # Prevent the target letter from resetting on every interaction (every 1 sec)
+    st.header(f"Can you sign the letter {st.session_state['target']}?")
 
-if 'target' not in st.session_state:
-    st.session_state['target'] = random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-# Initialize the target letter in the session state if it doesn't exist
-# Prevent the target letter from resetting on every interaction (every 1 sec)
-st.header(f"Can you sign the letter {st.session_state['target']}?")
+    if st.button("Give me a different letter"):
+        st.session_state.target = random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+        st.rerun()
 
-if st.button("Give me a different letter"):
-    st.session_state.target = random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-    st.rerun()
+    st.write("Show your sign to the camera!")
 
-st.write("Show your sign to the camera!")
+    img_file_buffer = st.camera_input("Take a photo of your sign:")
+    # Opens the camera and takes a picture which gets stored in img_file_buffer
+    if img_file_buffer is not None:
+    # Checking if the user has taken a picture to be processsed.
+        img = Image.open(img_file_buffer)
+        img_resized = img.resize((200,200), Image.Resampling.LANCZOS)
+        import io
+        buffered = io.BytesIO()
+        img.save(buffered, format="JPEG", quality=50)
+        base64_image = base64.b64encode(buffered.getvalue()).decode('utf-8')
+        st.image(img, caption="Sign visible", use_container_width = True)
+        st.success("Checking may be slow, please be patient...")
 
-img_file_buffer = st.camera_input("Take a photo of your sign:")
-# Opens the camera and takes a picture which gets stored in img_file_buffer
-if img_file_buffer is not None:
-# Checking if the user has taken a picture to be processsed.
-    img = Image.open(img_file_buffer)
-    img_resized = img.resize((200,200), Image.Resampling.LANCZOS)
-    import io
-    buffered = io.BytesIO()
-    img.save(buffered, format="JPEG", quality=50)
-    base64_image = base64.b64encode(buffered.getvalue()).decode('utf-8')
-    st.image(img, caption="Sign visible", use_container_width = True)
-    st.success("Checking may be slow, please be patient...")
+    # 1. Convert the camera image to Base64 text for the AI
+        bytes_data = img_file_buffer.getvalue()
+        base64_image = base64.b64encode(bytes_data).decode('utf-8')
 
-# 1. Convert the camera image to Base64 text for the AI
-    bytes_data = img_file_buffer.getvalue()
-    base64_image = base64.b64encode(bytes_data).decode('utf-8')
+        # 2. Ask the AI to grade the sign
+        with st.spinner("Checking your sign..."):
+            try:
+                # Initiate chat completion with the vision model, sending the image and asking for feedback on the sign.
+                response = client.chat.completions.create(
+                    model="kmouratidis/Magistral-Small-2507-Rebased-Vision",
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": [
+                                {"type": "text", "text": f"The user is trying to sign the ASL letter '{st.session_state.target}'. Is it correct? If not, what letter are they actually making?"},
+                                {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
+                            ],
+                        }
+                    ],
+                )
+                # Using vision model to analyse the image and determine if the sign is correct or not, and provide feedback.
+                # Connecting to and asking the AI model to grade the sign and provide feedback.
+                
+                # 3. Show the result
+                result = response.choices[0].message.content
+                # Displaying the first AI message choice to the user
+                st.info(f"Feedback: {result}")
+                # Visually showing feedback
+                
+                if "is correct" in result.lower() and "not" not in result.lower():
+                # Ensuring that "not" is absent to avoid false positives such as "not correct" where the word "correct" is present but the sign is incorrect.
+                    st.balloons()
+                    st.success("Perfect! You got it!")
+                else:
+                    st.warning("Not quite there yet, check the feedback and try again!")
 
-    # 2. Ask the AI to grade the sign
-    with st.spinner("Checking your sign..."):
-        try:
-            # Initiate chat completion with the vision model, sending the image and asking for feedback on the sign.
-            response = client.chat.completions.create(
-                model="kmouratidis/Magistral-Small-2507-Rebased-Vision",
-                messages=[
-                    {
-                        "role": "user",
-                        "content": [
-                            {"type": "text", "text": f"The user is trying to sign the ASL letter '{st.session_state.target}'. Is it correct? If not, what letter are they actually making?"},
-                            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
-                        ],
-                    }
-                ],
-            )
-            # Using vision model to analyse the image and determine if the sign is correct or not, and provide feedback.
-            # Connecting to and asking the AI model to grade the sign and provide feedback.
-            
-            # 3. Show the result
-            result = response.choices[0].message.content
-            # Displaying the first AI message choice to the user
-            st.info(f"Feedback: {result}")
-            # Visually showing feedback
-            
-            if "is correct" in result.lower() and "not" not in result.lower():
-            # Ensuring that "not" is absent to avoid false positives such as "not correct" where the word "correct" is present but the sign is incorrect.
-                st.balloons()
-                st.success("Perfect! You got it!")
-            else:
-                st.warning("Not quite there yet, check the feedback and try again!")
-
-        except Exception as e:
-            st.error(f"Uh-oh, something went wrong. Error: {e}")
-        # Exception handling
+            except Exception as e:
+                st.error(f"Uh-oh, something went wrong. Error: {e}")
+            # Exception handling
