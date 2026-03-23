@@ -32,10 +32,10 @@ if st.session_state.page == "home":
     with st.container(border=True):
         st.subheader("💡 Did you know?")
         if st.button("Generate New Fact"):
-            st.session_state.asl_fact = get_asl_fact()
+            st.session_state.asl_fact = asl_fact()
             
         if 'asl_fact' not in st.session_state:
-            st.session_state.asl_fact = get_asl_fact()
+            st.session_state.asl_fact = asl_fact()
         st.write(st.session_state.asl_fact)
     
     # Large button to start the app
