@@ -15,6 +15,17 @@ from openai import OpenAI
 if 'page' not in st.session_state:
     st.session_state.page = "home"
 
+def asl_fact():
+    try:
+        fact = client.chat.comp·letions.create(
+            model="kmouratidis/Magistral-Small-2507-Rebased-Vision",
+            messages= [{"role": "user", "content": "Tell me one short, inspiring, or interesting random fact about ASL or the Deaf community. Keep it under 30 words."}],
+            max_tokens=60
+        )
+        return fact.choices[0].message.content.strip()
+    except:
+        return "Do you know there are over 300 different sign languages used around the world? ASL is just one of them!"
+
 if st.session_state.page == "home":
     st.title("Let's Learn ASL!")
     
@@ -33,7 +44,7 @@ if st.session_state.page == "home":
     st.divider()
     st.info("💡 Tip: Make sure your hand is well-lit and clearly visible in the frame!")
 
-# --- PAGE: APP ---
+
 elif st.session_state.page == "app":
     if st.button("⬅️ Back to Home"):
         st.session_state.page = "home"
