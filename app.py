@@ -24,22 +24,31 @@ def asl_fact():
         )
         return fact.choices[0].message.content.strip()
     except:
-        return "Do you know there are over 300 different sign languages used around the world? ASL is just one of them!"
+        return "There are over 300 different sign languages used around the world? ASL is just one of them!"
 
 if st.session_state.page == "home":
     st.title("Let's Learn ASL!")
+
+    with st.container(border=True):
+        st.subheader("💡 Did you know?")
+        if st.button("Generate New Fact"):
+            st.session_state.asl_fact = get_asl_fact()
+            
+        if 'asl_fact' not in st.session_state:
+            st.session_state.asl_fact = get_asl_fact()
+        st.write(st.session_state.asl_fact)
     
+    # Large button to start the app
+    if st.button("Start Practicing 🚀", use_container_width=True):
+        st.session_state.page = "app"
+        st.rerun()
+
     st.markdown("""
     ### How it works:
     1. **Get a Letter:** The AI will challenge you with a random letter.
     2. **Strike a Pose:** Show your hand sign to the camera.
     3. **Get Instant Feedback:** Our Vision AI will tell you if you're correct or how to improve!
     """)
-    
-    # Large button to start the app
-    if st.button("Start Practicing 🚀", use_container_width=True):
-        st.session_state.page = "app"
-        st.rerun()
 
     st.divider()
     st.info("💡 Tip: Make sure your hand is well-lit and clearly visible in the frame!")
