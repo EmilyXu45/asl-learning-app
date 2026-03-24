@@ -1,4 +1,4 @@
-# asl-learning-app
+# ASL learning app
 
 ## Overview:
 
