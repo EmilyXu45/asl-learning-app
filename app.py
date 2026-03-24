@@ -22,7 +22,7 @@ if 'page' not in st.session_state:
 def asl_fact():
     try:
         fact = client.chat.completions.create(
-            model="DeepSeek-V3-0324",
+            model="Magistral-Small-2507-Rebased-Vision",
             messages= [{"role": "user", "content": "Tell me one short, inspiring, or interesting random fact about ASL or the Deaf community. Keep it under 30 words."}],
             max_tokens=60
         )
