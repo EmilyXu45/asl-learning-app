@@ -34,6 +34,11 @@ If incorrect:
 AI identifies the sign the user actually made
 and provides guidance on how to perform the correct sign
 
+**4. Interactive Quiz Mode**
+
+An adaptive, interactive quiz system designed to reinforce ASL learning through active recall and spaced repetition.
+
+
 **Privacy-Focused Design**:
 
 No photos are stored, shared or saved. 
