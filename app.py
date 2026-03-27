@@ -15,7 +15,7 @@ client = OpenAI(
     base_url="https://api.featherless.ai/v1",
     api_key=st.secrets["FEATHERLESS_API_KEY"])
 
-# Initialize 'page' in session state if it doesn't exist
+# Initialize 'page' in session state if it doesn't exist.
 if 'page' not in st.session_state:
     st.session_state.page = "home"
 
