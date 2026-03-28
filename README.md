@@ -47,6 +47,8 @@ All image analysis is done securely with user privacy in mind.
 
 ## App Preview:
 
+To Be Added
+
 ## Tech Stack:
 
 ## Installation & Setup:
