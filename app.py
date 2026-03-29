@@ -33,6 +33,42 @@ def asl_fact():
 if st.session_state.page == "home":
     st.title("Let's Learn ASL!")
 
+    st.divider()
+    st.subheader("🌍 UN Sustainable Development Goals")
+    st.write("Hover over the cards to see how this app contributes!")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("""
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <h3>📚 Goal 4</h3>
+                </div>
+                <div class="flip-card-back">
+                  <h4>Quality Education</h4>
+                  <p>Making sign language learning accessible to everyone through AI-powered interactive tools.</p>
+                </div>
+              </div>
+            </div>
+        """, unsafe_allow_html=True)
+
+    with col2:
+        st.markdown("""
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <h3>🤝 Goal 10</h3>
+                </div>
+                <div class="flip-card-back">
+                  <h4>Reduced Inequalities</h4>
+                  <p>Breaking communication barriers to ensure deaf and hard-of-hearing individuals have equal opportunities.</p>
+                </div>
+              </div>
+            </div>
+        """, unsafe_allow_html=True)
+
     with st.container(border=True):
         st.subheader("💡 Did you know?")
         if st.button("Generate New Fact"):
@@ -55,7 +91,9 @@ if st.session_state.page == "home":
         with open(file_name) as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
     local_css("style.css")
+
     
+
     # Large button to start the app
     if st.button("Start Practicing 🚀", use_container_width=True):
         st.session_state.page = "app"
