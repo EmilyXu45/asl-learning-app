@@ -46,10 +46,10 @@ if st.session_state.page == "home":
             <div class="flip-card">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <h3>Quality Education</h3>
+                  <h3><b>Quality Education</b></h3>
                 </div>
                 <div class="flip-card-back">
-                  <p>Making sign language learning accessible to everyone through AI-powered interactive tools.</p>
+                  <p><b>Making sign language learning accessible to everyone through AI-powered interactive tools.</b></p>
                 </div>
               </div>
             </div>
@@ -60,10 +60,10 @@ if st.session_state.page == "home":
             <div class="flip-card">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <h3>Reduced Inequalities</h3>
+                  <h3><b>Reduced Inequalities</b></h3>
                 </div>
                 <div class="flip-card-back">
-                  <p>Breaking communication barriers to ensure deaf and hard-of-hearing individuals have equal opportunities.</p>
+                  <p><b>Breaking communication barriers to ensure deaf and hard-of-hearing individuals have equal opportunities.</b></p>
                 </div>
               </div>
             </div>
