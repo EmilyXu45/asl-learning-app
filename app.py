@@ -89,7 +89,7 @@ elif st.session_state.page == "app":
         st.image(img, caption="Sign visible", use_container_width = True)
         st.success("Checking may be slow, please be patient...")
 
-    # 1. Convert the camera image to Base64 text for the AI
+    # 1. Convert the camera image to Base64 text for AI processing
         bytes_data = img_file_buffer.getvalue()
         base64_image = base64.b64encode(bytes_data).decode('utf-8')
 
