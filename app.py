@@ -32,6 +32,8 @@ def asl_fact():
 
 if st.session_state.page == "home":
     st.title("Let's Learn ASL!")
+    
+    #SDG Section:
 
     st.divider()
     st.subheader("🌍 UN Sustainable Development Goals")
@@ -44,10 +46,9 @@ if st.session_state.page == "home":
             <div class="flip-card">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <h3>📚 Goal 4</h3>
+                  <h3>Quality Education</h3>
                 </div>
                 <div class="flip-card-back">
-                  <h4>Quality Education</h4>
                   <p>Making sign language learning accessible to everyone through AI-powered interactive tools.</p>
                 </div>
               </div>
@@ -59,10 +60,9 @@ if st.session_state.page == "home":
             <div class="flip-card">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <h3>🤝 Goal 10</h3>
+                  <h3>Reduced Inequalities</h3>
                 </div>
                 <div class="flip-card-back">
-                  <h4>Reduced Inequalities</h4>
                   <p>Breaking communication barriers to ensure deaf and hard-of-hearing individuals have equal opportunities.</p>
                 </div>
               </div>
