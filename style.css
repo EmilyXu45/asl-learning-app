@@ -22,7 +22,7 @@ h1, h2, h3, h4, h5, h6, p, span, label, div {
 
 /* Button Styling */
 .stButton>button {
-    background-color: #2e7d32 !important; /* Green */
+    background-color: #88F2A4 !important; /* Green */
     color: white !important; /* Keep button text white for contrast */
     border-radius: 10px;
     font-weight: bold;
