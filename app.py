@@ -48,8 +48,14 @@ if st.session_state.page == "home":
     1. **Get a Letter:** The AI will challenge you with a random letter.
     2. **Strike a Pose:** Show your hand sign to the camera.
     3. **Get Instant Feedback:** Our Vision AI will tell you if you're correct or how to improve!
-    """)
-
+    """
+    )
+    
+    def local_css(file_name):
+        with open(file_name) as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    local_css("style.css")
+    
     # Large button to start the app
     if st.button("Start Practicing 🚀", use_container_width=True):
         st.session_state.page = "app"
