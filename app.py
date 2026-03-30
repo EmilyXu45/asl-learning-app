@@ -60,7 +60,7 @@ if st.session_state.page == "home":
             <div class="flip-card">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <h3><b>Reduced Inequalities</b></h3>
+                 <img src="https://raw.githubusercontent.com/EmilyXu45/asl-learning-app/d0a068fa355aa14763dec78c45a7fb79d3a25d7a/images/sdg10.png" style="width:100%"; height:auto;>
                 </div>
                 <div class="flip-card-back">
                   <p><b>Breaking communication barriers to ensure deaf and hard-of-hearing individuals have equal opportunities.</b></p>
