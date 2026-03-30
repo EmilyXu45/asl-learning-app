@@ -46,7 +46,7 @@ if st.session_state.page == "home":
             <div class="flip-card">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <h3><b>Quality Education</b></h3>
+                  <img src="https://raw.githubusercontent.com/EmilyXu45/asl-learning-app/d0a068fa355aa14763dec78c45a7fb79d3a25d7a/images/sdg4.png" style="width:100%"; height:auto;>
                 </div>
                 <div class="flip-card-back">
                   <p><b>Making sign language learning accessible to everyone through AI-powered interactive tools.</b></p>
