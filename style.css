@@ -1,18 +1,16 @@
-/* style.css */
-
-/* Main background with your Blue/Green gradient */
+/* Main background with a soft gradient */
 .stApp {
     background: linear-gradient(135deg, #e0f7fa 0%, #e8f5e9 100%);
 }
 
-/* Force all text to be black */
+/* Set all text to be black */
 h1, h2, h3, h4, h5, h6, p, span, label, div {
-    color: #000000 !important;
+    color: #000000
 }
 
 /* UN SDG Cards */
 .sdg-card {
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+    background-color: rgba(255, 255, 255, 0.8); 
     padding: 20px;
     border-radius: 15px;
     border-top: 5px solid #0288d1;
@@ -22,15 +20,14 @@ h1, h2, h3, h4, h5, h6, p, span, label, div {
 
 /* Button Styling */
 .stButton>button {
-    background-color: #88F2A4 !important; /* Green */
-    color: white !important; /* Keep button text white for contrast */
-    border-radius: 10px;
+    background-color: #88F2A4; 
+    color: white; 
     font-weight: bold;
     border: none;
 }
 
 .stButton>button:hover {
-    background-color: #0288d1 !important; /* Blue on hover */
+    background-color: #0288d1; 
 }
 
 
@@ -39,7 +36,7 @@ h1, h2, h3, h4, h5, h6, p, span, label, div {
   background-color: transparent;
   width: 100%;
   height: 200px;
-  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+  perspective: 1000px; /* 3D Effect on the card */
   margin-bottom: 20px;
 }
 
@@ -64,7 +61,7 @@ h1, h2, h3, h4, h5, h6, p, span, label, div {
   position: absolute;
   width: 100%;
   height: 100%;
-  -webkit-backface-visibility: hidden; /* Safari */
+  -webkit-backface-visibility: hidden; 
   backface-visibility: hidden;
   border-radius: 15px;
   display: flex;
