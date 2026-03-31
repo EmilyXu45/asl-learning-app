@@ -33,12 +33,13 @@ def asl_fact():
 if st.session_state.page == "home":
     st.title("Let's Learn ASL!")
     
-    #SDG Section:
+    #SDG Cards Display Section:
 
     st.divider()
     st.subheader("🌍 UN Sustainable Development Goals")
     st.write("Hover over the cards to see how this app contributes!")
 
+    #Two columes to display the 2 SDG cards side by side
     col1, col2 = st.columns(2)
 
     with col1:
