@@ -29,20 +29,15 @@ h1, h2, h3, h4, h5, h6, p, span, label, div {
 
 /* Feedback Boxes (Info, Success, Warning) */
 .stAlert {
-    border-radius: 15px !important;
-    border: none !important;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
+    border-radius: 15px;
+    border: none;
+    background-color: #2e9b5f;
 }
 
-/* Target Letter Highlight */
-.stHeader h2 {
-    background-color: white;
-    padding: 15px;
-    border-radius: 10px;
-    display: inline-block;
-    border-bottom: 4px solid #0288d1;
+.stAlert p, .stAlert span, .stAlert div, .stAlert li {
+    color: white !important;
+    font-weight: bold !important;
 }
-
 
 /* Button Styling */
 .stButton>button {
