@@ -11,6 +11,12 @@ import base64
 import random
 from openai import OpenAI
 
+def local_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+local_css("style.css")
+
 client = OpenAI(
     base_url="https://api.featherless.ai/v1",
     api_key=st.secrets["FEATHERLESS_API_KEY"])
@@ -39,7 +45,7 @@ if st.session_state.page == "home":
     st.subheader("🌍 UN Sustainable Development Goals")
     st.write("Hover over the cards to see how this app contributes!")
 
-    #Two columes to display the 2 SDG cards side by side
+    #Two columes to display the 2 SDG cards side by sider
     col1, col2 = st.columns(2)
 
     with col1:
