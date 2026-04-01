@@ -1,6 +1,6 @@
 /* Main background with a soft gradient */
 .stApp {
-    background: linear-gradient(135deg, #e0f7fa 0%, #e8f5e9 100%);
+    background: linear-gradient(135deg, #bff1f8 0%, #aef9b4 100%);
 }
 
 /* Set all text to be black */
@@ -46,7 +46,7 @@ h1, h2, h3, h4, h5, h6, p, span, label, div {
 
 /* Button Styling */
 .stButton>button {
-    background-color: #88F2A4; 
+    background-color: #42db86; 
     color: white; 
     font-weight: bold;
     border: none;
@@ -99,14 +99,14 @@ h1, h2, h3, h4, h5, h6, p, span, label, div {
 
 /* Style the front side */
 .flip-card-front {
-  background-color: #ffffff;
+  background-color: #fffcfc;
   color: black;
   border: 2px solid #0288d1;
 }
 
 /* Style the back side */
 .flip-card-back {
-  background-color: #88F2A4;
+  background-color: #094911;
   color: white !important;
   transform: rotateY(180deg);
 }
