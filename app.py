@@ -106,10 +106,6 @@ if st.session_state.page == "home":
         st.session_state.page = "app"
         st.rerun()
 
-    st.divider()
-    st.info("💡 Tip: Make sure your hand is well-lit and clearly visible in the frame!")
-
-
 elif st.session_state.page == "app":
     if st.button("⬅️ Back to Home"):
         st.session_state.page = "home"
@@ -124,8 +120,7 @@ elif st.session_state.page == "app":
     if st.button("Give me a different letter"):
         st.session_state.target = random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
         st.rerun()
-
-    st.write("Show your sign to the camera!")
+    st.info("💡 Tip: Make sure your hand is well-lit and clearly visible in the frame!")
 
     img_file_buffer = st.camera_input("Take a photo of your sign:")
     # Opens the camera and takes a picture which gets stored in img_file_buffer
