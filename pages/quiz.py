@@ -26,8 +26,7 @@ col_user, col_robot = st.columns(2)
 
 with col_user:
     st.header("👤 Your Choice")
-    # Replace the path with actual image folder path
-    st.image(f"images/{st.session_state.current_letter}.png", use_container_width=True)
+    st.image(f"asl_images/{st.session_state.current_letter}.png", use_container_width=True)
     st.write(f"### What letter is shown above?")
     
     # Selection buttons
