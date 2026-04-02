@@ -38,6 +38,17 @@ def asl_fact():
 
 if st.session_state.page == "home":
     st.title("Let's Learn ASL!")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        if st.button("🤟 Practice Lab", use_container_width=True):
+            st.session_state.page = "app" 
+            st.rerun()
+
+    with col2:
+        if st.button("🤖 Beat the Robot", use_container_width=True):
+            st.switch_page("pages/quiz.py")
     
     #SDG Cards Display Section:
 
@@ -85,6 +96,17 @@ if st.session_state.page == "home":
             st.session_state.asl_fact = asl_fact()
         st.write(st.session_state.asl_fact)
     
+    
+    def local_css(file_name):
+        with open(file_name) as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    local_css("style.css")
+   
+
+elif st.session_state.page == "app":
+    if st.button("⬅️ Back to Home"):
+        st.session_state.page = "home"
+        st.rerun()
 
     st.markdown("""
     ### How it works:
@@ -93,23 +115,6 @@ if st.session_state.page == "home":
     3. **Get Instant Feedback:** Our Vision AI will tell you if you're correct or how to improve!
     """
     )
-    
-    def local_css(file_name):
-        with open(file_name) as f:
-            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-    local_css("style.css")
-
-    
-
-    # Large button to start the app
-    if st.button("Start Practicing 🚀", use_container_width=True):
-        st.session_state.page = "app"
-        st.rerun()
-
-elif st.session_state.page == "app":
-    if st.button("⬅️ Back to Home"):
-        st.session_state.page = "home"
-        st.rerun()
 
     if 'target' not in st.session_state:
         st.session_state['target'] = random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
