@@ -8,6 +8,12 @@ def local_css(file_name):
 
 local_css("style.css")
 
+col_back, col_title = st.columns([1, 4])
+
+with col_back:
+    if st.button("⬅️ Home", use_container_width=True):
+        st.switch_page("app.py")
+
 st.title("🤖 Beat the Robot: ASL Quiz")
 
 # 1. Initialize Game State (Scores & Current Question)

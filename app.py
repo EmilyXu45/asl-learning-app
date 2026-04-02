@@ -104,7 +104,7 @@ if st.session_state.page == "home":
    
 
 elif st.session_state.page == "app":
-    if st.button("⬅️ Back to Home"):
+    if st.button("⬅️ Home"):
         st.session_state.page = "home"
         st.rerun()
 
