@@ -47,7 +47,8 @@ All image analysis is done securely with user privacy in mind.
 
 ## App Preview:
 
-To Be Added
+### Demo Pics
+### GIF Preview
 
 ## Tech Stack:
 
