@@ -9,7 +9,6 @@ def local_css(file_name):
 local_css("style.css")
 
 col_back, col_title = st.columns([1, 4])
-
 with col_back:
     if st.button("⬅️ Home", use_container_width=True):
         st.switch_page("app.py")
@@ -75,8 +74,8 @@ if user_answered:
         st.warning("🤖 The Robot also got it right!")
 
     if st.button("Next Round ➡️"):
-        # Reset for next question
-        del st.session_state.current_letter
+        if 'current_letter' in st.session_state:
+            del st.session_state.current_letter
         st.rerun()
 
 # 4. Scoreboard
