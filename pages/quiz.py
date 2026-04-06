@@ -34,7 +34,7 @@ with col_user:
     st.image(f"asl_images/{st.session_state.current_letter}.png", use_container_width=True)
     st.write(f"### What letter is shown above?")
     
-    # Selection buttons
+    # Give user the options to choose their answer
     user_answered = False
     for opt in st.session_state.options:
         if st.button(f"Letter {opt}", key=f"btn_{opt}", use_container_width=True):
@@ -47,12 +47,11 @@ with col_robot:
     if not user_answered:
         robot_placeholder.info("Waiting for your move...")
 
-# 3. Handle Result
+# Need to correct this part...
 if user_answered:
     # Robot "thinks" for a second
     with st.spinner("Robot is thinking..."):
         time.sleep(0.8)
-        # Robot logic: 85% chance of being right
         if random.random() < 0.85:
             robot_choice = st.session_state.current_letter
         else:
