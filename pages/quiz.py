@@ -31,25 +31,29 @@ col_user, col_robot = st.columns(2)
 
 with col_user:
     st.header("👤 Your Choice")
+    # Picks random image from folder
     st.image(f"asl_images/{st.session_state.current_letter}.png", use_container_width=True)
     st.write(f"### What letter is shown above?")
     
     # Give user the options to choose their answer
     user_answered = False
     for opt in st.session_state.options:
+        # Generate a unique button for each option
         if st.button(f"Letter {opt}", key=f"btn_{opt}", use_container_width=True):
             st.session_state.last_user_choice = opt
+            # Prompt the robot to start answering
             user_answered = True
 
 with col_robot:
     st.header("🤖 Robot's Choice")
     robot_placeholder = st.empty()
+    # Robot cannot answer before user has answered
     if not user_answered:
         robot_placeholder.info("Waiting for your move...")
 
 # Need to correct this part...
 if user_answered:
-    # Robot "thinks" for a second
+    # Robot "thinks" for 0.8 seconds
     with st.spinner("Robot is thinking..."):
         time.sleep(0.8)
         if random.random() < 0.85:
