@@ -56,9 +56,11 @@ if user_answered:
     # Robot "thinks" for 0.8 seconds
     with st.spinner("Robot is thinking..."):
         time.sleep(0.8)
-        if random.random() < 0.85:
+        # Robot has a 75% chance to get the answer right
+        if random.random() < 0.50:
             robot_choice = st.session_state.current_letter
         else:
+            # Checks every option in the list, if option is the correct answer, remove it from the new list. Robot picks a random letter from the list conntaining NO correct answer.
             robot_choice = random.choice([o for o in st.session_state.options if o != st.session_state.current_letter])
     
     # Show Robot's choice
