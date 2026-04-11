@@ -10,6 +10,7 @@ import base64
 # Turn image into text that can be sent to the backend
 import random
 from openai import OpenAI
+import google.generativeai as genai
 
 def local_css(file_name):
     with open(file_name) as f:

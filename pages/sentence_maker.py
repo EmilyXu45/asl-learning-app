@@ -1,10 +1,9 @@
 import streamlit as st
 from openai import OpenAI
+import google.generativeai as genai
 
-client = OpenAI(
-    base_url="https://api.featherless.ai/v1", 
-    api_key="rc_1251eccde58b548cb0095bc3e93896ff93cc81427f0ad9d6b9733927b93632be" 
-)
+genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 st.title("✍️ ASL Sentence Maker")
 
@@ -46,18 +45,12 @@ with col_main:
         if not current_text:
             st.warning("Type some letters first!")
         else:
-            with st.spinner("Featherless is processing..."):
+            with st.spinner("Gemini is thinking..."):
                 try:
-                    response = client.chat.completions.create(
-                        model="meta-llama/Llama-3.1-8B-Instruct", 
-                        messages=[
-                            {"role": "system", "content": "You are an ASL interpreter. The user will provide a string of letters. Turn them into a grammatically correct English sentence. Fix typos and add punctuation. Return ONLY the sentence."},
-                            {"role": "user", "content": f"The letters are: {current_text}"}
-                        ]
-                    )
+                    prompt = f"Turn these ASL letters into a correct English sentence: {current_text}. Fix typos, add spaces and punctuation. Return ONLY the sentence."
                     
-                    ai_sentence = response.choices[0].message.content
-                    st.success(f"**AI Translation:** {ai_sentence}")
+                    response = model.generate_content(prompt)
+                    
+                    st.success(f"**AI Translation:** {response.text}")
                 except Exception as e:
                     st.error(f"AI Error: {e}")
-                
