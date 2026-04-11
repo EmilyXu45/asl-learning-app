@@ -39,7 +39,7 @@ with col_user:
     st.write(f"### What letter is shown above?")
     
     for opt in st.session_state.options:
-            # We disable buttons once you've answered
+            # Disable the button if the user has already answered this round
         if st.button(f"Letter {opt}", key=f"btn_{opt}", width="stretch", disabled=st.session_state.answered):
             st.session_state.last_user_choice = opt
             st.session_state.answered = True
@@ -50,7 +50,7 @@ with col_robot:
     if not st.session_state.answered:
         st.info("Waiting for your move...")
     else:
-        # We check if the robot has already picked for THIS round
+        # Check if the robot's choice has already been made (in case of multiple reruns)
         if 'robot_choice' not in st.session_state:
             with st.spinner("Robot is thinking..."):
                 time.sleep(0.8)
@@ -66,7 +66,6 @@ if st.session_state.answered:
     correct = st.session_state.current_letter
     
     if st.session_state.last_user_choice == correct:
-        # We only want to add the point once!
         if 'score_updated' not in st.session_state:
             st.session_state.user_score += 1
         st.success(f"🎯 Correct! It was {correct}.")
@@ -76,21 +75,22 @@ if st.session_state.answered:
     if st.session_state.get('robot_choice') == correct:
         if 'score_updated' not in st.session_state:
             st.session_state.robot_score += 1
-        st.warning("🤖 The Robot also got it right!")
-    
-    # Mark that we've updated scores for this round
+        if st.session_state.last_user_choice == correct:
+            st.warning("🤖 The Robot also got it right!")
+        else:
+            st.warning("🤖 The Robot got it right!")
+        st.info("🤖 The Robot guessed wrong!")
+
     st.session_state.score_updated = True
 
-    # THE RESET BUTTON
     if st.button("Next Round ➡️", width="stretch"):
-        # CLEAN THE LOCKER: Remove round-specific data
         keys_to_delete = ['current_letter', 'robot_choice', 'score_updated', 'options']
         for key in keys_to_delete:
             if key in st.session_state:
                 del st.session_state[key]
         
         st.session_state.answered = False
-        st.rerun() # Now when it reruns, 'current_letter' is missing, so it picks a new one!
+        st.rerun() 
 
 # 4. Scoreboard
 st.divider()
