@@ -12,6 +12,9 @@ import random
 from openai import OpenAI
 import google.generativeai as genai
 
+genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
+model = genai.GenerativeModel('gemini-1.5-flash')
+
 def local_css(file_name):
     with open(file_name) as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
@@ -135,52 +138,21 @@ elif st.session_state.page == "app":
     img_file_buffer = st.camera_input("Take a photo of your sign:")
     # Opens the camera and takes a picture which gets stored in img_file_buffer
     if img_file_buffer is not None:
-    # Checking if the user has taken a picture to be processsed.
         img = Image.open(img_file_buffer)
-        img_resized = img.resize((200,200), Image.Resampling.LANCZOS)
-        import io
-        buffered = io.BytesIO()
-        img.save(buffered, format="JPEG", quality=50)
-        base64_image = base64.b64encode(buffered.getvalue()).decode('utf-8')
-        st.image(img, caption="Sign visible", use_container_width = True)
-        st.success("Checking may be slow, please be patient...")
-
-    # 1. Convert the camera image to Base64 text for AI processing
-        bytes_data = img_file_buffer.getvalue()
-        base64_image = base64.b64encode(bytes_data).decode('utf-8')
-
-        # 2. Ask the AI to grade the sign
         with st.spinner("Checking your sign..."):
-            try:
-                # Initiate chat completion with the vision model, sending the image and asking for feedback on the sign.
-                response = client.chat.completions.create(
-                    model="kmouratidis/Magistral-Small-2507-Rebased-Vision",
-                    messages=[
-                        {
-                            "role": "user",
-                            "content": [
-                                {"type": "text", "text": f"The user is trying to sign the ASL letter '{st.session_state.target}'. Is it correct? If not, what letter are they actually making?"},
-                                {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
-                            ],
-                        }
-                    ],
-                )
-                # Using vision model to analyse the image and determine if the sign is correct or not, and provide feedback.
-                # Connecting to and asking the AI model to grade the sign and provide feedback.
-                
-                # 3. Show the result
-                result = response.choices[0].message.content
-                # Displaying the first AI message choice to the user
-                st.info(f"Feedback: {result}")
-                # Visually showing feedback
-                
-                if "is correct" in result.lower() and "not" not in result.lower():
-                # Ensuring that "not" is absent to avoid false positives such as "not correct" where the word "correct" is present but the sign is incorrect.
-                    st.balloons()
-                    st.success("Perfect! You got it!")
-                else:
-                    st.warning("Not quite there yet, check the feedback and try again!")
-
-            except Exception as e:
-                st.error(f"Uh-oh, something went wrong. Error: {e}")
-            # Exception handling
+                try:
+                    prompt = f"The user is trying to sign the ASL letter '{st.session_state.target}'. Is it correct? Explain why or why not briefly."
+                    
+                    response = model.generate_content([prompt, img])
+                    result = response.text
+                    
+                    st.info(f"Feedback: {result}")
+                    
+                    if "correct" in result.lower() and "not" not in result.lower():
+                        st.balloons()
+                        st.success("Perfect!")
+                    else:
+                        st.warning("Keep trying!")
+                        
+                except Exception as e:
+                    st.error(f"Error: {e}")
