@@ -1,10 +1,8 @@
 import streamlit as st
 from openai import OpenAI
-import google.generativeai as genai
+from google import genai
 
-genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
-model = genai.GenerativeModel('gemini-1.5-flash')
-
+client = genai.Client(api_key=st.secrets["GOOGLE_API_KEY"])
 st.title("✍️ ASL Sentence Maker")
 
 if st.button("⬅️ Home"):
@@ -41,16 +39,15 @@ with col_main:
     st.divider()
 
 
-    if st.button("🪄 Fix with AI", type="primary", width="stretch"):
-        if not current_text:
-            st.warning("Type some letters first!")
-        else:
-            with st.spinner("Gemini is thinking..."):
-                try:
-                    prompt = f"Turn these ASL letters into a correct English sentence: {current_text}. Fix typos, add spaces and punctuation. Return ONLY the sentence."
-                    
-                    response = model.generate_content(prompt)
-                    
-                    st.success(f"**AI Translation:** {response.text}")
-                except Exception as e:
-                    st.error(f"AI Error: {e}")
+if st.button("🪄 Fix Sentence", type="primary"):
+    if current_text:
+        with st.spinner("AI is thinking..."):
+            try:
+                response = client.models.generate_content(
+                    model='gemini-2.0-flash', 
+                    contents=f"Turn these ASL letters into a sentence: {current_text}"
+                )
+                
+                st.success(f"**AI Translation:** {response.text}")
+            except Exception as e:
+                st.error(f"AI Error: {e}")

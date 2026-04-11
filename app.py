@@ -10,10 +10,9 @@ import base64
 # Turn image into text that can be sent to the backend
 import random
 from openai import OpenAI
-import google.generativeai as genai
+from google import genai
 
-genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
-model = genai.GenerativeModel('gemini-1.5-flash')
+client = genai.Client(api_key=st.secrets["GOOGLE_API_KEY"])
 
 def local_css(file_name):
     with open(file_name) as f:
@@ -138,21 +137,28 @@ elif st.session_state.page == "app":
     img_file_buffer = st.camera_input("Take a photo of your sign:")
     # Opens the camera and takes a picture which gets stored in img_file_buffer
     if img_file_buffer is not None:
-        img = Image.open(img_file_buffer)
-        with st.spinner("Checking your sign..."):
+    
+            img = Image.open(img_file_buffer)
+            st.image(img, caption="Your Sign", width="stretch")
+
+            with st.spinner("AI is checking your sign..."):
                 try:
-                    prompt = f"The user is trying to sign the ASL letter '{st.session_state.target}'. Is it correct? Explain why or why not briefly."
+                    response = client.models.generate_content(
+                        model='gemini-2.0-flash', 
+                        contents=[
+                            f"The user is trying to sign the ASL letter '{st.session_state.target}'. Is it correct? Explain briefly.",
+                            img
+                        ]
+                    )
                     
-                    response = model.generate_content([prompt, img])
                     result = response.text
-                    
                     st.info(f"Feedback: {result}")
                     
                     if "correct" in result.lower() and "not" not in result.lower():
                         st.balloons()
-                        st.success("Perfect!")
+                        st.success("Perfect! You got it!")
                     else:
-                        st.warning("Keep trying!")
-                        
+                        st.warning("Not quite there yet, try again!")
+
                 except Exception as e:
-                    st.error(f"Error: {e}")
+                    st.error(f"AI Error: {e}. Tip: Try checking your GOOGLE_API_KEY in Secrets.")
