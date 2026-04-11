@@ -39,7 +39,7 @@ def asl_fact():
 if st.session_state.page == "home":
     st.title("Let's Learn ASL!")
 
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
 
     with col1:
         if st.button("🤟 Practice Lab", use_container_width=True):
@@ -50,6 +50,10 @@ if st.session_state.page == "home":
         if st.button("🤖 Beat the Robot", use_container_width=True):
             st.switch_page("pages/quiz.py")
     
+    with col3:
+        if st.button("✍️ Sentence Maker", width="stretch"):
+            st.switch_page("pages/sentence_maker.py")
+
     #SDG Cards Display Section:
 
     st.divider()
