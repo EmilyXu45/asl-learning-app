@@ -79,7 +79,8 @@ if st.session_state.answered:
             st.warning("🤖 The Robot also got it right!")
         else:
             st.warning("🤖 The Robot got it right!")
-        st.info("🤖 The Robot guessed wrong!")
+    else:
+        st.info("🤖 Opps, the Robot got it wrong!")
 
     st.session_state.score_updated = True
 
