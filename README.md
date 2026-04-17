@@ -55,3 +55,11 @@ All image analysis is done securely with user privacy in mind.
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 ![CSS](https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ## Installation & Setup:
+
+## Installation
+
+Follow these steps to set up the project locally:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/your-repo-name.git
