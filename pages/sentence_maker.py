@@ -5,6 +5,15 @@ from navigation import render_sidebar
 
 render_sidebar()
 
+def local_css(file_name):
+    try:
+        with open(file_name) as f:
+            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+    except FileNotFoundError:
+        pass
+
+local_css("style.css")
+
 client = genai.Client(api_key=st.secrets["GOOGLE_API_KEY"])
 st.title("✍️ ASL Sentence Maker")
 
