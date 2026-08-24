@@ -22,8 +22,22 @@ def render_sidebar():
 
         st.divider()
 
-        # Extra UI Widget (Progress or Quick Info)
+        # Dynamic Daily Goal Section
         st.subheader("🎯 Daily Goal")
-        st.progress(0.6, text="3/5 Letters Practiced")
+        
+        # Initialize score counter if it doesn't exist
+        if 'letters_practiced' not in st.session_state:
+            st.session_state.letters_practiced = 0
+            
+        goal = 5
+        count = st.session_state.letters_practiced
+        
+        # Progress value must be between 0.0 and 1.0
+        progress_val = min(count / goal, 1.0)
+        
+        st.progress(progress_val, text=f"{count}/{goal} Letters Practiced")
+        
+        if count >= goal:
+            st.success("🎉 Daily goal reached! Great job!")
         
         st.info("💡 **Tip:** Practice in a brightly lit room for better AI vision accuracy!")
