@@ -1,6 +1,10 @@
 import streamlit as st
 import random
 import time
+import streamlit as st
+from navigation import render_sidebar
+
+render_sidebar()
 
 def local_css(file_name):
     with open(file_name) as f:

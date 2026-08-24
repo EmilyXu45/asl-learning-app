@@ -6,6 +6,10 @@ import base64
 import random
 from openai import OpenAI
 from google import genai
+import streamlit as st
+from navigation import render_sidebar
+
+render_sidebar()
 
 # 1. Initialize Gemini Client with a distinct variable name
 gemini_client = genai.Client(api_key=st.secrets["GOOGLE_API_KEY"])

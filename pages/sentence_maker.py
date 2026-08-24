@@ -1,5 +1,9 @@
 import streamlit as st
 from google import genai
+import streamlit as st
+from navigation import render_sidebar
+
+render_sidebar()
 
 client = genai.Client(api_key=st.secrets["GOOGLE_API_KEY"])
 st.title("✍️ ASL Sentence Maker")

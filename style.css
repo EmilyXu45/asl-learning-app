@@ -111,7 +111,24 @@ h1, h2, h3, h4, h5, h6, p, span, label, div {
     color: white !important;
 }
 
-/*Hide sidebar*/
-[data-testid="stSidebarNav"] {
-    display: none;
+/* Style the sidebar container */
+[data-testid="stSidebar"] {
+    background-color: #ffffff;
+    border-right: 1px solid #2d313e;
+}
+
+/* Custom styling for sidebar buttons */
+[data-testid="stSidebar"] .stButton > button {
+    background-color: #262936;
+    color: #ffffff;
+    border: 1px solid #3d4255;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+[data-testid="stSidebar"] .stButton > button:hover {
+    background-color: #4f46e5;
+    color: #ffffff;
+    border-color: #6366f1;
 }
