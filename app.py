@@ -1,160 +1,91 @@
 import streamlit as st
-import cv2
-from PIL import Image
-import numpy as np
 import base64
-import random
 from openai import OpenAI
-from google import genai
-import streamlit as st
 from navigation import render_sidebar
 
 render_sidebar()
 
-# 1. Initialize Gemini Client with a distinct variable name
-gemini_client = genai.Client(api_key=st.secrets["GOOGLE_API_KEY"])
-
 def local_css(file_name):
-    with open(file_name) as f:
-        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+    try:
+        with open(file_name) as f:
+            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+    except FileNotFoundError:
+        pass
 
 local_css("style.css")
 
-# Initialize 'page' in session state if it doesn't exist.
-if 'page' not in st.session_state:
-    st.session_state.page = "home"
+# 3. Initialize OpenAI / Featherless Client for facts
+featherless_client = OpenAI(
+    base_url="https://api.featherless.ai/v1",
+    api_key=st.secrets["FEATHERLESS_API_KEY"]
+)
 
 def asl_fact():
     try:
-        fact = client.chat.completions.create(
+        fact = featherless_client.chat.completions.create(
             model="Magistral-Small-2507-Rebased-Vision",
-            messages= [{"role": "user", "content": "Tell me one short, inspiring, or interesting random fact about ASL or the Deaf community. Keep it under 30 words."}],
+            messages=[{"role": "user", "content": "Tell me one short, inspiring, or interesting random fact about ASL or the Deaf community. Keep it under 30 words."}],
             max_tokens=60
         )
         return fact.choices[0].message.content.strip()
-    except:
-        return "There are over 300 different sign languages used around the world? ASL is just one of them!"
+    except Exception:
+        return "There are over 300 different sign languages used around the world! ASL is just one of them!"
 
-if st.session_state.page == "home":
-    st.title("Let's Learn ASL!")
+st.title("Let's Learn ASL!")
 
-    col1, col2, col3 = st.columns(3)
+col1, col2, col3 = st.columns(3)
 
-    with col1:
-        if st.button("🤟 Practice Lab", use_container_width=True):
-            st.session_state.page = "app" 
-            st.rerun()
+with col1:
+    if st.button("🤟 Practice Lab", use_container_width=True):
+        st.switch_page("pages/practice_lab.py")
 
-    with col2:
-        if st.button("🤖 Beat the Robot", use_container_width=True):
-            st.switch_page("pages/quiz.py")
-    
-    with col3:
-        if st.button("✍️ Sentence Maker", width="stretch"):
-            st.switch_page("pages/sentence_maker.py")
+with col2:
+    if st.button("🤖 Beat the Robot", use_container_width=True):
+        st.switch_page("pages/quiz.py")
 
-    #SDG Cards Display Section:
+with col3:
+    if st.button("✍️ Sentence Maker", use_container_width=True):
+        st.switch_page("pages/sentence_maker.py")
 
-    st.divider()
-    st.subheader("🌍 UN Sustainable Development Goals")
-    st.write("Hover over the cards to see how this app contributes!")
+st.divider()
+st.subheader("🌍 UN Sustainable Development Goals")
+st.write("Hover over the cards to see how this app contributes!")
 
-    #Two columes to display the 2 SDG cards side by sider
-    col1, col2 = st.columns(2)
+col1, col2 = st.columns(2)
 
-    with col1:
-        st.markdown("""
-            <div class="flip-card">
-              <div class="flip-card-inner">
-                <div class="flip-card-front">
-                  <img src="https://raw.githubusercontent.com/EmilyXu45/asl-learning-app/d0a068fa355aa14763dec78c45a7fb79d3a25d7a/images/sdg4.png" style="width:100%"; height:auto;>
-                </div>
-                <div class="flip-card-back">
-                  <p><b>Making sign language learning accessible to everyone through AI-powered interactive tools.</b></p>
-                </div>
-              </div>
-            </div>
-        """, unsafe_allow_html=True)
-
-    with col2:
-        st.markdown("""
-            <div class="flip-card">
-              <div class="flip-card-inner">
-                <div class="flip-card-front">
-                 <img src="https://raw.githubusercontent.com/EmilyXu45/asl-learning-app/d0a068fa355aa14763dec78c45a7fb79d3a25d7a/images/sdg10.png" style="width:100%"; height:auto;>
-                </div>
-                <div class="flip-card-back">
-                  <p><b>Breaking communication barriers to ensure deaf and hard-of-hearing individuals have equal opportunities.</b></p>
-                </div>
-              </div>
-            </div>
-        """, unsafe_allow_html=True)
-
-    with st.container(border=True):
-        st.subheader("💡 Did you know?")
-        if st.button("Generate New Fact"):
-            st.session_state.asl_fact = asl_fact()
-            
-        if 'asl_fact' not in st.session_state:
-            st.session_state.asl_fact = asl_fact()
-        st.write(st.session_state.asl_fact)
-    
-    
-    def local_css(file_name):
-        with open(file_name) as f:
-            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-    local_css("style.css")
-   
-
-elif st.session_state.page == "app":
-    if st.button("⬅️ Home"):
-        st.session_state.page = "home"
-        st.rerun()
-
+with col1:
     st.markdown("""
-    ### How it works:
-    1. **Get a Letter:** The AI will challenge you with a random letter.
-    2. **Strike a Pose:** Show your hand sign to the camera.
-    3. **Get Instant Feedback:** Our Vision AI will tell you if you're correct or how to improve!
-    """
-    )
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img src="https://raw.githubusercontent.com/EmilyXu45/asl-learning-app/d0a068fa355aa14763dec78c45a7fb79d3a25d7a/images/sdg4.png" style="width:100%; height:auto;">
+            </div>
+            <div class="flip-card-back">
+              <p><b>Making sign language learning accessible to everyone through AI-powered interactive tools.</b></p>
+            </div>
+          </div>
+        </div>
+    """, unsafe_allow_html=True)
 
-    if 'target' not in st.session_state:
-        st.session_state['target'] = random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-    # Initialize the target letter in the session state if it doesn't exist
-    # Prevent the target letter from resetting on every interaction (every 1 sec)
-    st.header(f"Can you sign the letter {st.session_state['target']}?")
+with col2:
+    st.markdown("""
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+             <img src="https://raw.githubusercontent.com/EmilyXu45/asl-learning-app/d0a068fa355aa14763dec78c45a7fb79d3a25d7a/images/sdg10.png" style="width:100%; height:auto;">
+            </div>
+            <div class="flip-card-back">
+              <p><b>Breaking communication barriers to ensure deaf and hard-of-hearing individuals have equal opportunities.</b></p>
+            </div>
+          </div>
+        </div>
+    """, unsafe_allow_html=True)
 
-    if st.button("Give me a different letter"):
-        st.session_state.target = random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-        st.rerun()
-    st.info("💡 Tip: Make sure your hand is well-lit and clearly visible in the frame!")
-
-    img_file_buffer = st.camera_input("Take a photo of your sign:")
-    # Opens the camera and takes a picture which gets stored in img_file_buffer
-    if img_file_buffer is not None:
-    
-            img = Image.open(img_file_buffer)
-            st.image(img, caption="Your Sign", width="stretch")
-
-            with st.spinner("AI is checking your sign..."):
-                try:
-                    response = client.models.generate_content(
-                        model='gemini-2.0-flash', 
-                        contents=[
-                            f"The user is trying to sign the ASL letter '{st.session_state.target}'. Is it correct? Explain briefly.",
-                            img
-                        ]
-                    )
-                    
-                    result = response.text
-                    st.info(f"Feedback: {result}")
-                    
-                    if "correct" in result.lower() and "not" not in result.lower():
-                        st.balloons()
-                        st.success("Perfect! You got it!")
-                    else:
-                        st.warning("Not quite there yet, try again!")
-
-                except Exception as e:
-                    st.error(f"AI Error: {e}. Tip: Try checking your GOOGLE_API_KEY in Secrets.")
+with st.container(border=True):
+    st.subheader("💡 Did you know?")
+    if st.button("Generate New Fact"):
+        st.session_state.asl_fact = asl_fact()
+        
+    if 'asl_fact' not in st.session_state:
+        st.session_state.asl_fact = asl_fact()
+    st.write(st.session_state.asl_fact)
