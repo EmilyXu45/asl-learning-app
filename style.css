@@ -110,25 +110,50 @@ h1, h2, h3, h4, h5, h6, p, span, label, div {
 .flip-card-back p, .flip-card-back h4 {
     color: white !important;
 }
-
-/* Style the sidebar container */
-[data-testid="stSidebar"] {
-    background-color: #ffffff;
-    border-right: 1px solid #2d313e;
+/* Black Sidebar Background */
+[data-testid="stSidebar"], 
+[data-testid="stSidebar"] > div:first-child {
+    background-color: #0d0f12 !important;
+    border-right: 1px solid #1e2229 !important;
 }
 
-/* Custom styling for sidebar buttons */
+/* White Sidebar Text */
+[data-testid="stSidebar"] h1, 
+[data-testid="stSidebar"] h2, 
+[data-testid="stSidebar"] h3, 
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] .stMarkdown {
+    color: #ffffff !important;
+}
+
+/* Dark Grey Buttons */
 [data-testid="stSidebar"] .stButton > button {
-    background-color: #262936;
-    color: #ffffff;
-    border: 1px solid #3d4255;
-    border-radius: 8px;
-    font-weight: 500;
-    transition: all 0.2s ease;
+    background-color: #1a1d24 !important;
+    color: #ffffff !important;
+    border: 1px solid #2e3440 !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease-in-out !important;
 }
 
+/* Green Highlight */
 [data-testid="stSidebar"] .stButton > button:hover {
-    background-color: #4f46e5;
-    color: #ffffff;
-    border-color: #6366f1;
+    background-color: #10b981 !important; /* Vibrant Green */
+    color: #ffffff !important;
+    border-color: #34d399 !important;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.4) !important;
+}
+
+/* Hide Streamlit's Default Page Nav List at the top */
+[data-testid="stSidebarNav"] {
+    display: none !important;
+}
+
+/* Styled Green Tip Box */
+[data-testid="stSidebar"] .stAlert {
+    background-color: #064e3b !important;
+    color: #ecfdf5 !important;
+    border: 1px solid #10b981 !important;
 }
