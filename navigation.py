@@ -12,8 +12,7 @@ def render_sidebar():
         if st.button("Home", use_container_width=True):
             st.switch_page("app.py")
         if st.button("Practice Lab", use_container_width=True):
-            st.session_state.page = "app"
-            st.rerun()
+            st.switch_page("pages/practice_lab.py")
         if st.button("Beat the Robot Game", use_container_width=True):
             st.switch_page("pages/quiz.py")
             
