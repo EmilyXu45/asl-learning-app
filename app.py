@@ -1,18 +1,14 @@
 import streamlit as st
-# create the frontend of the app/
 import cv2
-# Allows us to use the camera and process the images
 from PIL import Image
-# Pillow: resize/format the picture inputs 
 import numpy as np
-# Process the images as numbers and feed them into the model
 import base64
-# Turn image into text that can be sent to the backend
 import random
 from openai import OpenAI
 from google import genai
 
-client = genai.Client(api_key=st.secrets["GOOGLE_API_KEY"])
+# 1. Initialize Gemini Client with a distinct variable name
+gemini_client = genai.Client(api_key=st.secrets["GOOGLE_API_KEY"])
 
 def local_css(file_name):
     with open(file_name) as f:
